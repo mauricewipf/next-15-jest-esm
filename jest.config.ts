@@ -20,10 +20,25 @@ const customJestConfig: Config = {
     moduleNameMapper: {
         '^@/(.*)$': '<rootDir>/src/$1',
         '^(\\.{1,2}/.*)\\.js$': '$1',
+        // Add CJS compatibility if needed
+        '^(\\.{1,2}/.*)\\.cjs$': '$1',
     },
+    // More flexible transform patterns - add packages that need transformation
     transformIgnorePatterns: [
+        // Transform ESM packages and problematic CJS packages that need it
+        // Add package names to the list as needed: uuid|other-esm-package|problematic-cjs-package
         'node_modules/(?!(uuid)/)'
     ],
+    // Allow both ESM and CJS transformations with Babel
+    transform: {
+        '^.+\\.(ts|tsx)$': ['babel-jest', { 
+            presets: [
+                ['@babel/preset-env', { modules: false }], // Keep ESM modules
+                '@babel/preset-typescript',
+                '@babel/preset-react'
+            ]
+        }]
+    },
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
