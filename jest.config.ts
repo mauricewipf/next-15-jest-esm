@@ -1,3 +1,4 @@
+import type { Config } from 'jest'
 import nextJest from 'next/jest.js'
 
 const createJestConfig = nextJest({
@@ -6,7 +7,7 @@ const createJestConfig = nextJest({
 })
 
 // Add any custom config to be passed to Jest
-const customJestConfig = {
+const customJestConfig: Config = {
     setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
     testEnvironment: 'jsdom',
     preset: undefined, // Disable preset to use pure ESM
